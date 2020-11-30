@@ -8,7 +8,7 @@ def fromMatrix(s: str) -> Graph:
     Generate a valid graph from the adjacency matrix
     """
     g = Graph()
-    for sender, line in enumerate(s.split("\n")):
+    for sender, line in enumerate(s.strip().split()):
         g.addVert(sender)
         for reciever, glyph in enumerate(line):
             if glyph == "1" and reciever != sender: # We wish to ignore the case of edges to yourself
@@ -46,3 +46,21 @@ if __name__ == "__main__":
 
         ).edges
     )
+    # new format
+    print(fromMatrix(
+        """
+        1000
+        0100
+        0010
+        0001
+        """
+    ).edges)
+
+    print(fromMatrix(
+        """
+        1100
+        1100
+        0011
+        0011
+        """
+    ).edges)
