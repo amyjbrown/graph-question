@@ -1,66 +1,26 @@
 """
-Main test for the question
+Interfaces for reading from a file or stdin
 """
-from graph import Graph
+from typing import TextIO, Optional, Iterator, Tuple
 
-def fromMatrix(s: str) -> Graph:
+def read(file: TextIO) -> Iterator[int, str]:
     """
-    Generate a valid graph from the adjacency matrix
+    Read input from any file and perform the appropriate actions/outputs
     """
-    g = Graph()
-    for sender, line in enumerate(s.strip().split()):
-        g.addVert(sender)
-        for reciever, glyph in enumerate(line):
-            if glyph == "1" and reciever != sender: # We wish to ignore the case of edges to yourself
-                g.addEdge(sender, reciever) # this is symetric, but oh well
-    
-    return g
+    graphnum = int(file.readline().split())
+
+    for n in range(graphnum):
+        dims = file.readline().split().strip()
+        _, height = int(dims[0]), int(dims[1])
+
+        graph_lines = []
+        graph = None
+        for h in range(height):
+            graph_lines.append( file.readline() )
+        graph = "".join(graph_lines)
+
+        yield n, graph
 
 
 if __name__ == "__main__":
-    matt = (
-        "1101\n"
-        "1100\n"
-        "0011\n"
-        "1011"
-    )
-    print(
-        fromMatrix(
-            matt
-        ).edges
-    )
-
-    print(fromMatrix(
-        "1000\n"
-        "0100\n"
-        "0010\n"
-        "0001"
-        ).edges
-    )
-
-    print(fromMatrix(
-        "1000\n"
-        "0100\n"
-        "0010\n"
-        "0001"
-
-        ).edges
-    )
-    # new format
-    print(fromMatrix(
-        """
-        1000
-        0100
-        0010
-        0001
-        """
-    ).edges)
-
-    print(fromMatrix(
-        """
-        1100
-        1100
-        0011
-        0011
-        """
-    ).edges)
+    pass
