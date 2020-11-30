@@ -9,13 +9,21 @@ Will output the representation of the regions, which is a list of sets
 """
 import sys
 from region import Region, runMain
+from reader import getGraphs
+from argparse import ArgumentParser
 
-if __name__ == "__main__":
-    s1 = (
-        "1000\n"
-        "0100\n"
-        "0010\n"
-        "0001"
+parser = ArgumentParser(
+    description="Get the regions from a group of adjacency matrices."
     )
-    print(runMain(s1))
-    assert runMain(s1) == [{0}, {1}, {2}, {3}]
+parser.add_argument('input', metavar="file",default=None, nargs="?")
+
+if (file := parser.parse_args()).input is None:
+    FILE = sys.stdin
+else:
+    FILE = open(file.input, 'r')
+
+
+for num, graph in getGraphs(FILE):
+    print(f"#{num+1}", graph, runMain(graph), sep="\n")
+
+FILE.close()

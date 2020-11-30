@@ -1,16 +1,16 @@
 """
 Interfaces for reading from a file or stdin
 """
-from typing import TextIO, Optional, Iterator, Tuple
+from typing import TextIO, Optional, Tuple, Iterator
 
-def read(file: TextIO) -> Iterator[int, str]:
+def getGraphs(file: TextIO) -> Iterator[Tuple[int, str]]:
     """
     Read input from any file and perform the appropriate actions/outputs
     """
-    graphnum = int(file.readline().split())
+    graphnum = int(file.readline())
 
     for n in range(graphnum):
-        dims = file.readline().split().strip()
+        dims = file.readline().strip().split()
         _, height = int(dims[0]), int(dims[1])
 
         graph_lines = []
